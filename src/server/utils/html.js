@@ -1,4 +1,5 @@
-function renderHtml(html, preloadedState, assets, helmet) {
+// TODO: switch this to a single object instead of params
+function renderHtml(html, preloadedState, assets, helmet, context) {
     return `
         <!doctype html>
         <html>
@@ -19,6 +20,7 @@ function renderHtml(html, preloadedState, assets, helmet) {
 
                 <script>
                     window.__PRELOADED_STATE__ = ${JSON.stringify(preloadedState).replace(/</g, '\\u003c')}
+                    window.splitPoints = ${(context && context.splitPoints) ? JSON.stringify(context.splitPoints) : JSON.stringify([])};
                 </script>
                 
                 ${(assets.manifest) ? '<script src="' + assets.manifest.js + '"></script>' : ''}

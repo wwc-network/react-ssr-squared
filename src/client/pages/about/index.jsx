@@ -6,9 +6,7 @@ class About extends Component {
         return new Promise(resolve => resolve());
     }
 
-    componentDidMount() {
-        console.log('about mounted');
-    }
+    componentDidMount() {}
 
     render() {
         return (

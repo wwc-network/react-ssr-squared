@@ -50,7 +50,10 @@ app.get('*', (req, res) => {
     component.fetchData({ store, params: (foundPath ? foundPath.params : {}) }).then(() => {
         let preloadedState = store.getState();
 
-        let context = {};
+        // TODO: Can we take this with redux/store instead
+        let context = {
+            splitPoints: []
+        };
 
         const html = ReactDOM.renderToString(
             <Provider store={store}>
@@ -60,14 +63,16 @@ app.get('*', (req, res) => {
             </Provider>
         );
 
+        console.log(context);
+
         const helmetData = helmet.renderStatic();
 
         if (context.url) {
             res.redirect(context.status, 'http://' + req.headers.host + context.url);
         } else if (foundPath && foundPath.path == '/404') {
-            res.status(404).send(serverHtml.renderHtml(html, preloadedState, dist, helmetData));
+            res.status(404).send(serverHtml.renderHtml(html, preloadedState, dist, helmetData, context));
         } else {
-            res.send(serverHtml.renderHtml(html, preloadedState, dist, helmetData));
+            res.send(serverHtml.renderHtml(html, preloadedState, dist, helmetData, context));
         }
     });
 });

@@ -6,9 +6,7 @@ class Home extends Component {
         return new Promise(resolve => resolve());
     }
 
-    componentDidMount() {
-        console.log('home mounted');
-    }
+    componentDidMount() {}
 
     render() {
         return (
