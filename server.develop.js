@@ -18,22 +18,12 @@ app.use(webpackDevHandler);
 
 app.use(webpackHotHandler);
 
-app.use('/assets/fonts', express.static('./dist/assets/fonts'));
-
 app.use((req, res) => {
   
     const assetsByChunkName = res.locals.webpackStats.toJson().assetsByChunkName;
    
     // TODO: create webpack lib file and function to filter assets
     res.send(serverHtml.renderHtml('', '', {
-        /*
-        vendor_css: {
-            css: webpackConfig.output.publicPath + assetsByChunkName.vendor_css.filter(function (path) { return path.endsWith('.css'); })[0]
-        },
-        head_css: {
-            css: webpackConfig.output.publicPath + assetsByChunkName.head_css.filter(function (path) { return path.endsWith('.css'); })[0]
-        },
-        */
         vendor_js: {
             js: webpackConfig.output.publicPath + assetsByChunkName.vendor_js.filter(function (path) { return path.endsWith('.js'); })[0]
         },
