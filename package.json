@@ -10,7 +10,7 @@
     "test": "eslint",
     "build": "npm run build:client && npm run build:server",
     "develop": "export DEV_MODE=\"webpack\" && node app.js",
-    "develop:ssr": "nodemon --watch ./dist/server/ --watch ./dist/assets/json/ ./dist/server/server.js & webpack --watch --progress --colors --config webpack.config.server.js & webpack --watch --progress --colors --config webpack.config.js"
+    "develop:ssr": "nodemon --watch ./dist/server/ --watch ./dist/assets/json/ --delay 2000ms ./dist/server/server.js & webpack --watch --progress --colors --watch-aggregate-timeout 1000 --config webpack.config.server.js & webpack --watch --progress --colors --config webpack.config.js"
   },
   "engines": {
     "node": "6.11.1",
