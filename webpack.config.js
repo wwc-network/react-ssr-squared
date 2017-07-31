@@ -8,9 +8,6 @@ const fs = require('fs'),
     packageData = require('./package.json'),
     envVars = process.env || {},
     environment = envVars.ENVIRONMENT || 'prod',
-    config = require('../../cfg'),
-    appConfig = config(environment, 'app'),
-    routeConfig = config(environment, 'route'),
     staticDir = path.join(__dirname,  './dist/assets/'),
     componentDir = staticDir + 'bundles/',
     devMode = envVars.DEV_MODE || '',
@@ -46,18 +43,8 @@ let envWebpack,
         entry: {
             vendor_js: [
                 'react',
-                'react-dom',
-                'firebase/app',
-                'firebase/auth'
+                'react-dom'
             ],
-            /*
-            vendor_css: [
-                './src/bundles/vendor/css.js'
-            ],
-            head_css: [
-                './src/bundles/head/css.js'
-            ],
-            */
             app: [
                 './src/client/index.js'
             ]
@@ -66,13 +53,9 @@ let envWebpack,
         output: {
             filename: (environment === 'local') ? '[name].js' : '[name].[chunkhash:20].js',
             path: componentDir,
-            // publicPath: '//' + appConfig.content.cdn.assets + appConfig.bundles.staticDir
             publicPath: '/assets/bundles/'
         },
 
-        /**
-         * @todo replace config.js with build variables
-        */
         module: {
             rules: [
                 {
@@ -93,7 +76,8 @@ let envWebpack,
                         loader: 'babel-loader',
                         options: {
                             presets: [
-                                'es2015', 'react'
+                                'es2015',
+                                'react'
                             ],
                             plugins: [
                                 'transform-object-rest-spread',
@@ -110,17 +94,14 @@ let envWebpack,
         plugins: [
             new webpack.ProvidePlugin({
                 React: 'react',
-                ReactDOM: 'react-dom',
-                firebase: 'firebase/app',
-                'firebase.auth': 'firebase/auth'
+                ReactDOM: 'react-dom'
             }),
 
             new webpack.DefinePlugin({
                 'process.env': {
                     BROWSER: JSON.stringify(true),
                     NODE_ENV: JSON.stringify(nodeEnv)
-                },
-                __APP_CONFIG__: JSON.stringify(appConfig)
+                }
             }),
 
             /**
@@ -155,9 +136,7 @@ let envWebpack,
                 path: staticDir + 'json/', 
                 filename: 'bundles.json',
                 metadata: {
-                    version: packageData.version,
-                    staticDir: appConfig.bundles.staticDir,
-                    cacheToServiceWorker: appConfig.serviceworker.bundlesToCache
+                    version: packageData.version
                 }
             })
         ],
