@@ -4,7 +4,17 @@
   "description": "React server side rendering w/ extras.",
   "main": "app.js",
   "scripts": {
-    "test": "test"
+    "start": "node app.js",
+    "build:client": "webpack --progress --colors --config webpack.config.js",
+    "build:server": "webpack --progress --colors --config webpack.config.server.js",
+    "test": "eslint",
+    "build": "npm run build:client && npm run build:server",
+    "develop": "export DEV_MODE=\"webpack\" && node app.js",
+    "develop:ssr": "nodemon --watch ./dist/server/ --watch ./dist/assets/json/ ./dist/server/server.js & webpack --watch --progress --colors --config webpack.config.server.js & webpack --watch --progress --colors --config webpack.config.js"
+  },
+  "engines": {
+    "node": "6.11.1",
+    "npm": "3.10.10"
   },
   "keywords": [
     "React",
