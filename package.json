@@ -1,0 +1,22 @@
+{
+  "name": "react-ssr-squared",
+  "version": "0.0.1",
+  "description": "React server side rendering w/ extras.",
+  "main": "app.js",
+  "scripts": {
+    "test": "test"
+  },
+  "keywords": [
+    "React",
+    "Server",
+    "Side",
+    "Rendering",
+    "CSS",
+    "Modules",
+    "Webpack",
+    "Code",
+    "Splitting"
+  ],
+  "author": "Charles Rawls",
+  "license": "ISC"
+}
