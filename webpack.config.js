@@ -43,7 +43,11 @@ let envWebpack,
         entry: {
             vendor_js: [
                 'react',
-                'react-dom'
+                'react-dom',
+                'react-router-dom',
+                'react-helmet',
+                'react-redux',
+                'redux'
             ],
             app: [
                 './src/client/index.js'
