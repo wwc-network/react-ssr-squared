@@ -40,7 +40,8 @@ module.exports = {
                     }
                 }],
             }
-            //loaders for other file types can go here
+
+            // loaders for other file types can go here
         ]
     },
 
