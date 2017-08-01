@@ -1,4 +1,4 @@
-import { asyncRoute, syncRoute} from '../shared/utils/routes.js';
+import { syncRoute } from '../shared/utils/routes.js';
 
 export const Home = syncRoute(require('../shared/pages/home/index.jsx'), 'Home');
 

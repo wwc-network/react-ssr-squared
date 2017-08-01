@@ -3,7 +3,6 @@ import React from 'react';
 import ReactDOM from 'react-dom/server';
 import helmet from 'react-helmet';
 import App from '../shared/modules/app-shell/index.jsx';
-import { render } from 'react-dom';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
 import reducers from '../shared/redux/reducers/combine';
@@ -27,7 +26,7 @@ app.get('*', (req, res) => {
     
     let foundPath = null;
 
-    let { path, component } = routeBank.routes.find(
+    let { component } = routeBank.routes.find(
         ({ path, exact }) => {
             foundPath = matchPath(req.url,
                 {
@@ -44,7 +43,7 @@ app.get('*', (req, res) => {
     }
     
     if (!component.fetchData) {
-        component.fetchData = () => new Promise((resolve, reject) => resolve());
+        component.fetchData = () => new Promise((resolve) => resolve());
     }
 
     component.fetchData({ store, params: (foundPath ? foundPath.params : {}) }).then(() => {
@@ -69,7 +68,7 @@ app.get('*', (req, res) => {
 
         if (context.url) {
             res.redirect(context.status, 'http://' + req.headers.host + context.url);
-        } else if (foundPath && foundPath.path == '/404') {
+        } else if (foundPath && foundPath.path === '/404') {
             res.status(404).send(serverHtml.renderHtml(html, preloadedState, dist, helmetData, context));
         } else {
             res.send(serverHtml.renderHtml(html, preloadedState, dist, helmetData, context));

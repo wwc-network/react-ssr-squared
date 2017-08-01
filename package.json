@@ -7,8 +7,9 @@
     "start": "node app.js",
     "build:client": "webpack --progress --colors --config webpack.config.js",
     "build:server": "webpack --progress --colors --config webpack.config.server.js",
-    "test": "eslint",
-    "build": "npm run build:client && npm run build:server",
+    "dist:clean": "rm -rf ./dist/*",
+    "test": "eslint *.js src/**/*.js",
+    "build": "npm run dist:clean && npm run build:client && npm run build:server",
     "develop": "export DEV_MODE=\"webpack\" && node app.js",
     "develop:ssr": "nodemon --watch ./dist/server/ --watch ./dist/assets/json/ --delay 2000ms ./dist/server/server.js & webpack --watch --progress --colors --watch-aggregate-timeout 1000 --config webpack.config.server.js & webpack --watch --progress --colors --config webpack.config.js"
   },

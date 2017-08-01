@@ -10,7 +10,6 @@ function renderHtml(html, preloadedState, assets, helmet, context) {
                 ${helmet.title.toString()}
                 ${helmet.meta.toString()}
 
-                ${(assets.vendor_css) ? '<link rel="stylesheet" href="' + assets.vendor_css.css + '" />' : ''}
                 ${(assets.head_css) ? '<link rel="stylesheet" href="' + assets.head_css.css + '" />' : ''}
 
                 ${helmet.link.toString()}
@@ -25,7 +24,7 @@ function renderHtml(html, preloadedState, assets, helmet, context) {
                 
                 ${(assets.manifest) ? '<script src="' + assets.manifest.js + '"></script>' : ''}
                 ${(assets.vendor_js) ? '<script src="' + assets.vendor_js.js + '"></script>' : ''}
-                ${(assets.app) ? '<script src="' + assets.app.js + '"></script>': ''}
+                ${(assets.app) ? '<script src="' + assets.app.js + '"></script>' : ''}
             </body>
         </html>
     `;
