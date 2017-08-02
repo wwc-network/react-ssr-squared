@@ -28,7 +28,6 @@ let envWebpack,
         {
             loader: 'postcss-loader',
             options: {
-                config: {},
                 sourceMap: true,
                 plugins: () => [
                     require('postcss-import')({}),
