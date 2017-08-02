@@ -39,6 +39,12 @@ let envWebpack,
             }
         }
     ],
+    babelLoaderPlugins = [
+        'transform-object-rest-spread',
+        'syntax-dynamic-import',
+        'transform-class-properties',
+        'async-to-promises'
+    ],
     webpackConfig = {
         entry: {
             vendor_js: [
@@ -71,7 +77,7 @@ let envWebpack,
                 {
                     test: /\.css$/,
                     exclude: /node_modules|\.min\.js/,
-                    use: (devMode === 'webpack') ? cssRuleLoaders : ExtractTextPlugin.extract({fallback: 'style-loader', use: cssRuleLoaders})
+                    use: (devMode === 'webpack') ?  [{ loader: 'style-loader' }].concat(cssRuleLoaders) : ExtractTextPlugin.extract({fallback: 'style-loader', use: cssRuleLoaders})
                 },
                 {
                     test: /\.(js|jsx)$/,
@@ -83,12 +89,7 @@ let envWebpack,
                                 'es2015',
                                 'react'
                             ],
-                            plugins: [
-                                'transform-object-rest-spread',
-                                'syntax-dynamic-import',
-                                'transform-class-properties',
-                                'async-to-promises'
-                            ]
+                            plugins: (devMode === 'webpack') ? ['react-hot-loader/babel'].concat(babelLoaderPlugins) : babelLoaderPlugins
                         }
                     }]
                 }
@@ -150,7 +151,7 @@ let envWebpack,
 
 // add in dev mode specific configuration
 if (devMode === 'webpack') {
-    webpackConfig.entry.app.push('react-hot-loader/patch');
+    webpackConfig.entry.app = ['react-hot-loader/patch'].concat(webpackConfig.entry.app);
     webpackConfig.entry.app.push('webpack-hot-middleware/client');
 
     webpackConfig.plugins.push(

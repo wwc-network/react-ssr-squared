@@ -23,3 +23,7 @@ Promise.all(splitPoints.map(function preloadComponent(chunk) {
         </Provider>
     ), document.getElementById('root'));
 });
+
+if (module.hot) {
+    module.hot.accept();
+}
