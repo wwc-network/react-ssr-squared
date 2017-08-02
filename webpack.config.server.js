@@ -1,6 +1,9 @@
 const nodeExternals = require('webpack-node-externals'),
     path = require('path'),
+    ExtractTextPlugin = require('extract-text-webpack-plugin'),
     webpack = require('webpack'),
+    envVars = process.env || {},
+    environment = envVars.ENVIRONMENT || 'prod',
     srcPath = path.resolve(__dirname),
     distPath = path.resolve(__dirname, './dist/server/');
 
@@ -41,10 +44,36 @@ module.exports = {
                         plugins: [
                             'transform-object-rest-spread',
                             'syntax-dynamic-import',
-                            'transform-class-properties',
+                            'transform-class-properties'
                         ]
                     }
-                }],
+                }]
+            },
+            {
+                test: /\.css$/,
+                include: [
+                    path.resolve(__dirname, 'src')
+                ],
+                use: ExtractTextPlugin.extract({fallback: 'style-loader', use: [
+                    {
+                        loader: 'css-loader',
+                        options: {
+                            sourceMap: true,
+                            minimize: true,
+                            module: true,
+                            importLoaders: 1,
+                            localIdentName: (environment === 'local') ? '[name]__[local]--[hash:8]' : '[hash:8]'
+                        }
+                    },
+                    {
+                        loader: 'postcss-loader',
+                        options: {
+                            config: {
+                                path: 'postcss.config.js'
+                            }
+                        }
+                    }
+                ]})
             }
 
             // loaders for other file types can go here
@@ -54,8 +83,8 @@ module.exports = {
     externals: [
         nodeExternals(),
 
-        function(context, request, callback) {
-            if (/webpack\.config|bundles\.json/.test(request)){
+        function (context, request, callback) {
+            if (/webpack\.config|bundles\.json/.test(request)) {
                 return callback(null, 'commonjs ' + request);
             }
             callback();
@@ -66,7 +95,12 @@ module.exports = {
         new webpack.NormalModuleReplacementPlugin(
             /^\.\.\/\.\.\/\.\.\/client\/routes\.js$/,
             '../../../server/routes.js'
-        )
+        ),
+
+        new ExtractTextPlugin({
+            ignoreOrder: true,
+            filename: 'css/[name].css'
+        })
     ],
 
     devtool: 'source-map'

@@ -1,7 +1,4 @@
-'use strict';
-
-const fs = require('fs'),
-    path = require('path'),
+const path = require('path'),
     webpack = require('webpack'),
     ExtractTextPlugin = require('extract-text-webpack-plugin'),
     AssetsPlugin = require('assets-webpack-plugin'),
@@ -13,28 +10,23 @@ const fs = require('fs'),
     devMode = envVars.DEV_MODE || '',
     nodeEnv = envVars.NODE_ENV || 'production';
 
-let envWebpack,
-    cssRuleLoaders = [
+let cssRuleLoaders = [
         {
             loader: 'css-loader',
             options: {
                 sourceMap: true,
                 minimize: true,
                 module: true,
-                importLoaders: 2,
+                importLoaders: 1,
                 localIdentName: '[hash:8]'
             }
         },
         {
             loader: 'postcss-loader',
             options: {
-                sourceMap: true,
-                plugins: () => [
-                    require('postcss-import')({}),
-                    require('postcss-cssnext')({
-                        browsers: ['last 2 versions', '> 5%'],
-                    })
-                ]
+                config: {
+                    path: 'postcss.config.js'
+                }
             }
         }
     ],
@@ -158,7 +150,10 @@ if (devMode === 'webpack') {
     );
 } else {
     webpackConfig.plugins.push(
-        new ExtractTextPlugin((environment === 'local') ? '[name].css' : '[name].[chunkhash:20].css')
+        new ExtractTextPlugin({
+            ignoreOrder: true,
+            filename: (environment === 'local') ? '[name].css' : '[name].[chunkhash:20].css'
+        })
     );
 }
 
