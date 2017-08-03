@@ -1,5 +1,5 @@
-import { syncRoute } from '../shared/utils/routes.js';
+import { syncComponent } from '../shared/modules/sync-component/index.js';
 
-export const Home = syncRoute(require('../shared/pages/home/index.jsx'), 'Home');
+export const Home = syncComponent(require('../shared/pages/home/index.jsx'), 'Home');
 
-export const About = syncRoute(require('../client/pages/about/index.jsx'), 'About');
+export const About = syncComponent(require('../shared/pages/about/index.jsx'), 'About');

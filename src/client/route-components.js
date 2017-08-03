@@ -1,5 +1,5 @@
-import { asyncRoute, syncRoute} from '../shared/utils/routes.js';
+import { asyncComponent } from '../shared/modules/async-component/index.js';
 
-export const Home = syncRoute(require('../shared/pages/home/index.jsx'), 'Home');
+export const Home = asyncComponent(() => System.import('../shared/pages/home/index.jsx'), 'Home');
 
-export const About = asyncRoute(() => System.import('./pages/about/index.jsx'), 'About');
+export const About = asyncComponent(() => System.import('../shared/pages/about/index.jsx'), 'About');

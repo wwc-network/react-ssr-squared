@@ -1,6 +1,6 @@
 import React from 'react';
 
-export function asyncRoute(getComponent, chunkName) {
+export function asyncComponent(getComponent, chunkName) {
     return class AsyncComponent extends React.Component {
         static Component = null;
         mounted = false;
@@ -46,22 +46,4 @@ export function asyncRoute(getComponent, chunkName) {
             return null; // or <div /> with a loading spinner, etc..
         }
     }
-}
-
-export function syncRoute(mod, chunkName) {
-    const Component = mod.default ? mod.default : mod; // es6 module compat
-
-    function wrapComponent(props) {
-        if (props.staticContext && props.staticContext.splitPoints) {
-            props.staticContext.splitPoints.push(chunkName);
-        }
-
-        return (<Component {...props} />);
-    }
-
-    syncRoute.propTypes = {
-        staticContext: React.PropTypes.object
-    };
-
-    return wrapComponent;
 }

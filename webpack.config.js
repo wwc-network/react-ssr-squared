@@ -123,9 +123,6 @@ let cssRuleLoaders = [
             new webpack.optimize.AggressiveMergingPlugin(),
 
             /**
-             * @todo Should we manually combine the bundle map with the app bundle using gulp after build
-             * to eliminate one request?
-             *
              * Use app filename hash value within service worker until we figure out how to pass build hashes
             */
             new AssetsPlugin({
@@ -143,6 +140,7 @@ let cssRuleLoaders = [
 // add in dev mode specific configuration
 if (devMode === 'webpack') {
     webpackConfig.entry.app = ['react-hot-loader/patch'].concat(webpackConfig.entry.app);
+
     webpackConfig.entry.app.push('webpack-hot-middleware/client');
 
     webpackConfig.plugins.push(
